@@ -18,7 +18,7 @@ A library that displays floating bottom sheet.
 
 ## Compatibility
 
-FloatingBottomSheet requires **iOS 14+** and is compatible with **Swift 5** projects.
+FloatingBottomSheet requires **iOS 11+** and is compatible with **Swift 5** projects.
 
 ## Installation
 
