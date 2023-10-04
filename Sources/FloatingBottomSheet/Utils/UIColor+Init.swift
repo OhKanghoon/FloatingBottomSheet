@@ -55,30 +55,38 @@ extension UIColor {
   }
 
   convenience init(light: UIColor, dark: UIColor) {
-    self.init(dynamicProvider: {
-      switch $0.userInterfaceStyle {
-      case .light, .unspecified:
-        return light
-      case .dark:
-        return dark
-      @unknown default:
-        assertionFailure("Unknown userInterfaceStyle: \($0.userInterfaceStyle)")
-        return light
-      }
-    })
+    if #available(iOS 13.0, *) {
+      self.init(dynamicProvider: {
+        switch $0.userInterfaceStyle {
+        case .light, .unspecified:
+          return light
+        case .dark:
+          return dark
+        @unknown default:
+          assertionFailure("Unknown userInterfaceStyle: \($0.userInterfaceStyle)")
+          return light
+        }
+      })
+    } else {
+      self.init(cgColor: light.cgColor)
+    }
   }
 
   convenience init(lightHex: String, darkHex: String) {
-    self.init(dynamicProvider: {
-      switch $0.userInterfaceStyle {
-      case .light, .unspecified:
-        return UIColor(hex: lightHex)
-      case .dark:
-        return UIColor(hex: darkHex)
-      @unknown default:
-        assertionFailure("Unknown userInterfaceStyle: \($0.userInterfaceStyle)")
-        return UIColor(hex: lightHex)
-      }
-    })
+    if #available(iOS 13.0, *) {
+      self.init(dynamicProvider: {
+        switch $0.userInterfaceStyle {
+        case .light, .unspecified:
+          return UIColor(hex: lightHex)
+        case .dark:
+          return UIColor(hex: darkHex)
+        @unknown default:
+          assertionFailure("Unknown userInterfaceStyle: \($0.userInterfaceStyle)")
+          return UIColor(hex: lightHex)
+        }
+      })
+    } else {
+      self.init(hex: lightHex)
+    }
   }
 }
