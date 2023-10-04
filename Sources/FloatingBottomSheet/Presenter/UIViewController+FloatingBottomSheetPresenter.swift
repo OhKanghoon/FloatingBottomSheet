@@ -11,7 +11,7 @@ extension UIViewController: FloatingBottomSheetPresenter {
 
   public func presentFloatingBottomSheet(
     _ viewControllerToPresent: FloatingBottomSheet,
-    completion: (() -> Void)?
+    completion: (() -> Void)? = nil
   ) {
     viewControllerToPresent.modalPresentationStyle = .custom
     viewControllerToPresent.modalPresentationCapturesStatusBarAppearance = true
