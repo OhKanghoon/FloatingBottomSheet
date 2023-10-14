@@ -48,3 +48,48 @@ Replace `YOUR_TARGET_NAME` and then, in the `Podfile` directory, type:
 ```bash
 $ pod install
 ```
+
+## Usage
+
+### Configuration
+
+To use the FloatingBottomSheet, your ViewController must conform to the `FloatingBottomSheetPresentable` protocol.
+
+Start by implementing the `bottomSheetScrollable` and `bottomSheetHeight` properties. 
+
+```swift
+final class ViewController: UIViewController, FloatingBottomSheetPresentable {
+  
+  var bottomSheetScrollable: UIScrollView? { 
+    // Return a scrollable view
+  }
+    
+  var bottomSheetHeight: CGFloat { 
+    // Set the height of the bottom sheet
+  }
+}
+```
+
+### Present bottom sheet
+
+Simply present the floating bottom sheet using the presentFloatingBottomSheet function like this:
+
+```swift
+let viewController = ViewController()
+
+presentFloatingBottomSheet(viewController)
+```
+
+### Updates bottom sheet height at runtime
+
+To update the bottom sheet's height dynamically during runtime, use the following code:
+
+```swift
+bottomSheetHeight = 400.0
+bottomSheetPerformLayout(animated: true)
+```
+
+You can change the value of bottomSheetHeight to your desired height 
+and then call `bottomSheetPerformLayout` function to update the bottom sheet's height with optional animation. 
+
+If you don't want animation, set `animated` to false. 
