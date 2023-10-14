@@ -11,7 +11,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: extract_version_info
-        run: echo "::set-output name=version::$(git describe --tags $(git rev-list --tags --max-count=1))"
+        run: echo "version=$(git describe --tags $(git rev-list --tags --max-count=1))" >> $GITHUB_OUTPUT
         id: extract_version_name
 
       - name: Deploy to Cocoapods
