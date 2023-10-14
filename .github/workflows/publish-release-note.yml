@@ -4,8 +4,12 @@ on:
     tags:
       - "[0-9]+.[0-9]+.[0-9]+"
 
+permissions:
+  contents: write
+  pull-requests: read
+
 jobs:
-  build:
+  publish-release-note:
     runs-on: ubuntu-latest
 
     steps:
