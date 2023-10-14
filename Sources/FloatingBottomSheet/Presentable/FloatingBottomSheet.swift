@@ -7,4 +7,5 @@
 
 import UIKit
 
+/// A type that can be presented as a floating bottom sheet.
 public typealias FloatingBottomSheet = UIViewController & FloatingBottomSheetPresentable
