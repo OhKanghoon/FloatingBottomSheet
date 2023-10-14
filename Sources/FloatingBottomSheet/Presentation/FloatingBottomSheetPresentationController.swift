@@ -88,15 +88,6 @@ public final class FloatingBottomSheetPresentationController: UIPresentationCont
 
   private var scrollViewYOffset: CGFloat = 0.0
 
-//  public override var frameOfPresentedViewInContainerView: CGRect {
-//    guard var frame = containerView?.frame else { return .zero }
-//    frame.size.width = frame.width - (Metric.PresentedView.horizontalMargin * 2)
-//    frame.size.height = frame.height - bottomMargin - topYPosition
-//    frame.origin.x = Metric.PresentedView.horizontalMargin
-//    frame.origin.y = max(frame.origin.y, topYPosition)
-//    return frame
-//  }
-
 
   // MARK: Initializing
 
