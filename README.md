@@ -93,3 +93,7 @@ You can change the value of bottomSheetHeight to your desired height
 and then call `bottomSheetPerformLayout` function to update the bottom sheet's height with optional animation. 
 
 If you don't want animation, set `animated` to false. 
+
+## License
+
+FloatingBottomSheet is under MIT license. See the [LICENSE](https://github.com/OhKanghoon/FloatingBottomSheet/blob/main/LICENSE) for more info.
