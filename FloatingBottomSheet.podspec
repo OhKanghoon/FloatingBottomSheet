@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name         = 'FloatingBottomSheet'
-  spec.version      = '0.1.0'
+  spec.version      = ENV['LIB_VERSION'] || '0.1.0'
   spec.summary      = 'An easy way to present a bottom sheet with a floating effect.'
   spec.homepage     = 'https://github.com/OhKanghoon/FloatingBottomSheet'
   spec.license      = { type: 'MIT', file: 'LICENSE' }
