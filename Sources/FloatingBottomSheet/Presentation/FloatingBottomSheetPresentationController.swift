@@ -13,11 +13,6 @@ public final class FloatingBottomSheetPresentationController: UIPresentationCont
 
   private enum Metric {
 
-    enum Handle {
-      static let size = CGSize(width: 40, height: 4)
-      static let verticalMargin: CGFloat = 10
-    }
-
     enum PresentedView {
       static let horizontalMargin: CGFloat = 16
       static let cornerRadius: CGFloat = 20
@@ -50,8 +45,8 @@ public final class FloatingBottomSheetPresentationController: UIPresentationCont
 
   private lazy var handleView: UIView = {
     let view = UIView()
-    view.backgroundColor = presentable?.bottomSheetIndicatorColor
-    view.layer.cornerRadius = Metric.Handle.size.height * 0.5
+    view.backgroundColor = presentable?.bottomSheetHandleColor
+    view.layer.cornerRadius = BottomSheetHandleMetric.size.height * 0.5
     return view
   }()
 
@@ -208,7 +203,7 @@ extension FloatingBottomSheetPresentationController {
   private func layoutPresentedView() {
     presentedViewController.view.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      presentedViewController.view.topAnchor.constraint(equalTo: handleView.bottomAnchor, constant: Metric.Handle.verticalMargin),
+      presentedViewController.view.topAnchor.constraint(equalTo: handleView.bottomAnchor, constant: BottomSheetHandleMetric.verticalMargin),
       presentedViewController.view.leadingAnchor.constraint(equalTo: presentedView.leadingAnchor),
       presentedViewController.view.trailingAnchor.constraint(equalTo: presentedView.trailingAnchor),
       presentedViewController.view.bottomAnchor.constraint(equalTo: presentedView.bottomAnchor),
@@ -246,10 +241,10 @@ extension FloatingBottomSheetPresentationController {
   private func layoutHandleView() {
     handleView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      handleView.topAnchor.constraint(equalTo: presentedView.topAnchor, constant: Metric.Handle.verticalMargin),
+      handleView.topAnchor.constraint(equalTo: presentedView.topAnchor, constant: BottomSheetHandleMetric.verticalMargin),
       handleView.centerXAnchor.constraint(equalTo: presentedView.centerXAnchor),
-      handleView.widthAnchor.constraint(equalToConstant: Metric.Handle.size.width),
-      handleView.heightAnchor.constraint(equalToConstant: Metric.Handle.size.height),
+      handleView.widthAnchor.constraint(equalToConstant: BottomSheetHandleMetric.size.width),
+      handleView.heightAnchor.constraint(equalToConstant: BottomSheetHandleMetric.size.height),
     ])
   }
 

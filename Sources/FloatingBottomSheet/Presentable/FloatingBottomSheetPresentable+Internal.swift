@@ -18,8 +18,12 @@ extension FloatingBottomSheetPresentable where Self: UIViewController {
     return rootVC.view.safeAreaInsets.top
   }
 
+  var containerViewHeight: CGFloat {
+    bottomSheetHeight + BottomSheetHandleMetric.verticalMargin * 2 + BottomSheetHandleMetric.size.height
+  }
+
   var topYPosition: CGFloat {
-    max(topMargin(from: bottomSheetHeight), 0) + topOffset
+    max(topMargin(from: containerViewHeight), 0) + topOffset
   }
 
   var bottomYPosition: CGFloat {

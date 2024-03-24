@@ -33,7 +33,8 @@ public protocol FloatingBottomSheetPresentable: AnyObject {
   /// The default value for `topOffset` is view.safeAreaInsets.top + 42.0.
   var topOffset: CGFloat { get }
 
-  /// The `bottomSheetHeight` property represents the height of the container view for a bottom sheet.
+  /// The `bottomSheetHeight` property represents the height of the presented view for a bottom sheet.
+  /// Height of the bottom sheet container view is `bottomSheetHeight` + 24 (handle view area)
   ///
   /// This property is adjusted to the maximum possible height within the screen limits.
   ///
@@ -45,10 +46,10 @@ public protocol FloatingBottomSheetPresentable: AnyObject {
   /// The default value for `bottomSheetDimColor` is black with alpha component 0.8
   var bottomSheetDimColor: UIColor { get }
 
-  /// The bottom sheet indicator color
+  /// The bottom sheet handle color
   ///
-  /// The default value for `bottomSheetIndicatorColor` is `UIColor(lightHex: "#EAEBEE", darkHex: "#34373D")`
-  var bottomSheetIndicatorColor: UIColor { get }
+  /// The default value for `bottomSheetHandleColor` is `UIColor(lightHex: "#EAEBEE", darkHex: "#34373D")`
+  var bottomSheetHandleColor: UIColor { get }
 
   /// The `allowsDragToDismiss` property determines whether the user can swipe down to dismiss the bottom sheet.
   ///
