@@ -115,8 +115,18 @@ public final class FloatingBottomSheetPresentationController: UIPresentationCont
   public override func presentationTransitionWillBegin() {
     guard let containerView else { return }
 
+    presentedView.addSubview(handleView)
+    presentedView.addGestureRecognizer(panGestureRecognizer)
+
+    containerView.addSubview(dimmingView)
+    containerView.addSubview(presentedView)
+
+    layoutHandleView()
     layoutDimmingView(in: containerView)
     layoutPresentedView(in: containerView)
+
+    adjustContainerBackgroundColor()
+    performLayout(animated: false)
     configureScrollViewInsets()
 
     guard let coordinator = presentedViewController.transitionCoordinator else {
@@ -195,14 +205,15 @@ extension FloatingBottomSheetPresentationController {
   }
 
   private func layoutPresentedView(in containerView: UIView) {
-    containerView.addSubview(presentedView)
-    containerView.addGestureRecognizer(panGestureRecognizer)
+    presentedViewController.view.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate([
+      presentedViewController.view.topAnchor.constraint(equalTo: handleView.bottomAnchor, constant: Metric.Handle.verticalMargin),
+      presentedViewController.view.leadingAnchor.constraint(equalTo: presentedView.leadingAnchor),
+      presentedViewController.view.trailingAnchor.constraint(equalTo: presentedView.trailingAnchor),
+      presentedViewController.view.bottomAnchor.constraint(equalTo: presentedView.bottomAnchor),
+    ])
 
-    layoutHandleView(to: presentedView)
     addRoundedCorners(to: presentedView)
-
-    performLayout(animated: false)
-    adjustContainerBackgroundColor()
   }
 
   private func adjustPresentedViewFrame() {
@@ -216,8 +227,6 @@ extension FloatingBottomSheetPresentationController {
     bottomSheetContainerView.frame.size = adjustedSize
     bottomSheetContainerView.frame.origin.y = topYPosition
     bottomSheetContainerView.frame.origin.x = Metric.PresentedView.horizontalMargin
-
-    presentedViewController.view.frame = CGRect(origin: .zero, size: adjustedSize)
   }
 
   private func adjustContainerBackgroundColor() {
@@ -226,7 +235,6 @@ extension FloatingBottomSheetPresentationController {
   }
 
   private func layoutDimmingView(in containerView: UIView) {
-    containerView.addSubview(dimmingView)
     dimmingView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
       dimmingView.topAnchor.constraint(equalTo: containerView.topAnchor),
@@ -236,12 +244,11 @@ extension FloatingBottomSheetPresentationController {
     ])
   }
 
-  private func layoutHandleView(to view: UIView) {
-    view.addSubview(handleView)
+  private func layoutHandleView() {
     handleView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      handleView.topAnchor.constraint(equalTo: view.topAnchor, constant: Metric.Handle.verticalMargin),
-      handleView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+      handleView.topAnchor.constraint(equalTo: presentedView.topAnchor, constant: Metric.Handle.verticalMargin),
+      handleView.centerXAnchor.constraint(equalTo: presentedView.centerXAnchor),
       handleView.widthAnchor.constraint(equalToConstant: Metric.Handle.size.width),
       handleView.heightAnchor.constraint(equalToConstant: Metric.Handle.size.height),
     ])
