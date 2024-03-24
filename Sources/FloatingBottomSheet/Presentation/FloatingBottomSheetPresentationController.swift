@@ -368,7 +368,7 @@ extension FloatingBottomSheetPresentationController {
   }
 
   func isVelocityWithinSensitivityRange(_ velocity: CGFloat) -> Bool {
-    (abs(velocity) - (1000 * (1 - Const.snapMovementSensitivity))) > 0
+    (velocity - (1000 * (1 - Const.snapMovementSensitivity))) > 0
   }
 
   func snap(toYPosition yPosition: CGFloat) {
