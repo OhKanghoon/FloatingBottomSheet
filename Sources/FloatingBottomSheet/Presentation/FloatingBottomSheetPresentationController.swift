@@ -50,8 +50,8 @@ public final class FloatingBottomSheetPresentationController: UIPresentationCont
 
   private lazy var handleView: UIView = {
     let view = UIView()
-    view.backgroundColor = presentable?.bottomSheetIndicatorColor
     view.layer.cornerRadius = Metric.Handle.size.height * 0.5
+    view.backgroundColor = presentable?.bottomSheetHandleColor
     return view
   }()
 

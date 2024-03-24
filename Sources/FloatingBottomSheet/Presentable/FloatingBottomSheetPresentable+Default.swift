@@ -23,7 +23,7 @@ extension FloatingBottomSheetPresentable where Self: UIViewController {
     UIColor.black.withAlphaComponent(0.8)
   }
 
-  public var bottomSheetIndicatorColor: UIColor {
+  public var bottomSheetHandleColor: UIColor {
     UIColor(lightHex: "#EAEBEE", darkHex: "#34373D")
   }
 
