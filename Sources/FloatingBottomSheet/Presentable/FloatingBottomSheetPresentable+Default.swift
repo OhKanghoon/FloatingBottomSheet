@@ -19,6 +19,14 @@ extension FloatingBottomSheetPresentable where Self: UIViewController {
     return scrollView.contentSize.height
   }
 
+  public var bottomSheetDimColor: UIColor {
+    UIColor.black.withAlphaComponent(0.8)
+  }
+
+  public var bottomSheetIndicatorColor: UIColor {
+    UIColor(lightHex: "#EAEBEE", darkHex: "#34373D")
+  }
+
   public var allowsDragToDismiss: Bool { true }
 
   public var allowsTapToDismiss: Bool { true }

@@ -37,7 +37,7 @@ public final class FloatingBottomSheetPresentationController: UIPresentationCont
 
   private lazy var dimmingView: UIView = {
     let dimmingView = UIView()
-    dimmingView.backgroundColor = UIColor(hex: "#00000080")
+    dimmingView.backgroundColor = presentable?.bottomSheetDimColor
     dimmingView.alpha = 0
     dimmingView.addGestureRecognizer(tapGesture)
     return dimmingView
@@ -48,9 +48,9 @@ public final class FloatingBottomSheetPresentationController: UIPresentationCont
     frame: containerView?.frame ?? .zero
   )
 
-  private let handleView: UIView = {
+  private lazy var handleView: UIView = {
     let view = UIView()
-    view.backgroundColor = UIColor(lightHex: "#EAEBEE", darkHex: "#34373D")
+    view.backgroundColor = presentable?.bottomSheetIndicatorColor
     view.layer.cornerRadius = Metric.Handle.size.height * 0.5
     return view
   }()
