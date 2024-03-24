@@ -121,11 +121,12 @@ public final class FloatingBottomSheetPresentationController: UIPresentationCont
     containerView.addSubview(dimmingView)
     containerView.addSubview(presentedView)
 
-    layoutHandleView()
     layoutDimmingView(in: containerView)
-    layoutPresentedView(in: containerView)
+    layoutHandleView()
+    layoutPresentedView()
 
     adjustContainerBackgroundColor()
+    addRoundedCorners(to: presentedView)
     performLayout(animated: false)
     configureScrollViewInsets()
 
@@ -204,7 +205,7 @@ extension FloatingBottomSheetPresentationController {
     }
   }
 
-  private func layoutPresentedView(in containerView: UIView) {
+  private func layoutPresentedView() {
     presentedViewController.view.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
       presentedViewController.view.topAnchor.constraint(equalTo: handleView.bottomAnchor, constant: Metric.Handle.verticalMargin),
@@ -212,8 +213,6 @@ extension FloatingBottomSheetPresentationController {
       presentedViewController.view.trailingAnchor.constraint(equalTo: presentedView.trailingAnchor),
       presentedViewController.view.bottomAnchor.constraint(equalTo: presentedView.bottomAnchor),
     ])
-
-    addRoundedCorners(to: presentedView)
   }
 
   private func adjustPresentedViewFrame() {
