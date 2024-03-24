@@ -39,6 +39,16 @@ public protocol FloatingBottomSheetPresentable: AnyObject {
   ///
   /// The default value for `bottomSheetHeight` is 100.
   var bottomSheetHeight: CGFloat { get }
+  
+  /// The bottom sheet dim color
+  ///
+  /// The default value for `bottomSheetDimColor` is black with alpha component 0.8
+  var bottomSheetDimColor: UIColor { get }
+
+  /// The bottom sheet indicator color
+  ///
+  /// The default value for `bottomSheetIndicatorColor` is `UIColor(lightHex: "#EAEBEE", darkHex: "#34373D")`
+  var bottomSheetIndicatorColor: UIColor { get }
 
   /// The `allowsDragToDismiss` property determines whether the user can swipe down to dismiss the bottom sheet.
   ///

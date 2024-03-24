@@ -29,7 +29,7 @@ final class PlainViewController: UIViewController, FloatingBottomSheetPresentabl
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    view.backgroundColor = .systemBackground
+    view.backgroundColor = .blue
 
     addSubviews()
     configureConstraint()
@@ -57,6 +57,7 @@ final class PlainViewController: UIViewController, FloatingBottomSheetPresentabl
 
   private func makeButton(title: String, color: UIColor, handler: @escaping () -> Void) -> UIButton {
     let button = UIButton()
+    button.backgroundColor = .white
     button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .body)
     button.titleLabel?.adjustsFontForContentSizeCategory = true
     button.setTitleColor(color, for: .normal)
@@ -80,7 +81,7 @@ final class PlainViewController: UIViewController, FloatingBottomSheetPresentabl
   private func configureConstraint() {
     scrollView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 24.0),
+      scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
       scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
       scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
       scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
