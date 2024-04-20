@@ -14,8 +14,7 @@ extension FloatingBottomSheetPresentable where Self: UIViewController {
   }
 
   var topLayoutOffset: CGFloat {
-    guard let rootVC = rootViewController else { return 0 }
-    return rootVC.view.safeAreaInsets.top
+    safeAreaInsets.top
   }
 
   var containerViewHeight: CGFloat {
@@ -37,13 +36,20 @@ extension FloatingBottomSheetPresentable where Self: UIViewController {
     bottomYPosition - height
   }
 
-  var bottomMargin: CGFloat { 34 }
+  var bottomMargin: CGFloat {
+    safeAreaInsets.bottom + 20
+  }
 }
 
 
 // MARK: - Private
 
 extension FloatingBottomSheetPresentable {
+
+  private var safeAreaInsets: UIEdgeInsets {
+    guard let rootViewController else { return .zero }
+    return rootViewController.view.safeAreaInsets
+  }
 
   private var keyWindow: UIWindow? {
     if #available(iOS 15.0, *) {
