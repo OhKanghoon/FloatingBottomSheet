@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct FloatingBottomSheetAnimator {
+enum FloatingBottomSheetAnimator {
 
   static func animate(
     _ animations: @escaping () -> Void,
