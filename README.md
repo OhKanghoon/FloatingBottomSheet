@@ -51,6 +51,8 @@ $ pod install
 
 ## Usage
 
+<img src="assets/floatingbottomsheet.gif" width="35%" alt="Preview">
+
 ### Configuration
 
 To use the FloatingBottomSheet, your ViewController must conform to the `FloatingBottomSheetPresentable` protocol.
