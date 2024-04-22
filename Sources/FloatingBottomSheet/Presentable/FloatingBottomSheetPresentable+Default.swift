@@ -9,8 +9,13 @@ import UIKit
 
 extension FloatingBottomSheetPresentable where Self: UIViewController {
 
-  public var topOffset: CGFloat {
-    topLayoutOffset + 42.0
+  public var bottomSheetInsets: NSDirectionalEdgeInsets {
+    .init(
+      top: safeAreaInsets.top + 42.0,
+      leading: 20.0,
+      bottom: safeAreaInsets.bottom + 12.0,
+      trailing: 20.0
+    )
   }
 
   public var bottomSheetHeight: CGFloat {
@@ -44,4 +49,29 @@ extension FloatingBottomSheetPresentable where Self: UIViewController {
   public func bottomSheetWillDismiss() {}
 
   public func bottomSheetDidDismiss() {}
+}
+
+
+// MARK: - Private
+
+extension FloatingBottomSheetPresentable {
+
+  var safeAreaInsets: UIEdgeInsets {
+    guard let rootViewController else { return .zero }
+    return rootViewController.view.safeAreaInsets
+  }
+
+  private var keyWindow: UIWindow? {
+    if #available(iOS 15.0, *) {
+      return UIApplication.shared.connectedScenes
+        .compactMap { ($0 as? UIWindowScene)?.keyWindow }
+        .first
+    } else {
+      return UIApplication.shared.windows.first { $0.isKeyWindow }
+    }
+  }
+
+  private var rootViewController: UIViewController? {
+    keyWindow?.rootViewController
+  }
 }

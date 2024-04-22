@@ -28,10 +28,14 @@ public protocol FloatingBottomSheetPresentable: AnyObject {
   /// it allows for seamless transition between the embedded scroll view and bottom sheet container view.
   var bottomSheetScrollable: UIScrollView? { get }
 
-  /// The offset between the top of the screen and the container view for a bottom sheet.
+  /// The insets between the screen and the container view for a bottom sheet.
   ///
-  /// The default value for `topOffset` is view.safeAreaInsets.top + 42.0.
-  var topOffset: CGFloat { get }
+  /// The default value for `bottomSheetInsets` is
+  /// - top: view.safeAreaInsets.top + 42.0
+  /// - leading: 20.0
+  /// - trailing: 20.0
+  /// - bottom: view.safeAreaInsets.bottom + 12.0
+  var bottomSheetInsets: NSDirectionalEdgeInsets { get }
 
   /// The `bottomSheetHeight` property represents the height of the presented view for a bottom sheet.
   /// Height of the bottom sheet container view is `bottomSheetHeight` + 24 (handle view area)
