@@ -1,20 +1,15 @@
 # FloatingBottomSheet
 
-<p align="center">
-  <img src="assets/logo.png" alt="Logo" />
-  <br />
-  <a href="https://github.com/OhKanghoon/FloatingBottomSheet/actions" target="_blank">
-    <img alt="CI" src="https://github.com/OhKanghoon/FloatingBottomSheet/workflows/CI/badge.svg">
-  </a>
-  <img src="https://img.shields.io/badge/platforms-iOS-333333.svg" alt="Supported Platforms: iOS" />
-  <a href="https://github.com/apple/swift-package-manager" alt="FloatingBottomSheet on Swift Package Manager" title="FloatingBottomSheet on Swift Package Manager"><img src="https://img.shields.io/badge/Swift%20Package%20Manager-compatible-brightgreen.svg" /></a>
-  <a href="https://cocoapods.org/pods/FloatingBottomSheet" target="_blank">
-    <img alt="CocoaPods" src="http://img.shields.io/cocoapods/v/FloatingBottomSheet">
-  </a>
-</p>
+<img alt="Logo" src="assets/logo.png"/>
 
+[![Build Status](https://github.com/OhKanghoon/FloatingBottomSheet/workflows/CI/badge.svg?branch=main)](https://github.com/OhKanghoon/FloatingBottomSheet/actions?query=branch%3Amain+workflow%3ACI)
+[![Swift Package Manager compatible](https://img.shields.io/badge/SPM-compatible-4BC51D.svg?style=flat)](https://github.com/apple/swift-package-manager)
+[![Swift Versions](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2FOhKanghoon%2FFloatingBottomSheet%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/OhKanghoon/FloatingBottomSheet)
+[![Platform](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2FOhKanghoon%2FFloatingBottomSheet%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/OhKanghoon/FloatingBottomSheet)
 
 A library that displays floating bottom sheet.
+
+See the [FloatingBottomSheet DocC documentation](https://swiftpackageindex.com/OhKanghoon/FloatingBottomSheet/main/documentation/floatingbottomsheet) hosted on the [Swift Package Index](https://swiftpackageindex.com/).
 
 ## Compatibility
 
@@ -50,6 +45,8 @@ $ pod install
 ```
 
 ## Usage
+
+<img src="assets/floatingbottomsheet.gif" width="35%" alt="Preview">
 
 ### Configuration
 
