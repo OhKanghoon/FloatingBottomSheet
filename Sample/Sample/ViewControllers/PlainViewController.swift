@@ -29,7 +29,7 @@ final class PlainViewController: UIViewController, FloatingBottomSheetPresentabl
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    view.backgroundColor = .blue
+    view.backgroundColor = .systemBackground
 
     addSubviews()
     configureConstraint()
@@ -56,11 +56,11 @@ final class PlainViewController: UIViewController, FloatingBottomSheetPresentabl
   }
 
   private func makeButton(title: String, color: UIColor, handler: @escaping () -> Void) -> UIButton {
-    let button = UIButton()
-    button.backgroundColor = .white
+    let button = UIButton(configuration: .filled())
+    button.configuration?.baseBackgroundColor = color
     button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .body)
     button.titleLabel?.adjustsFontForContentSizeCategory = true
-    button.setTitleColor(color, for: .normal)
+    button.setTitleColor(.white, for: .normal)
     button.setTitle(title, for: .normal)
     button.addAction(UIAction(handler: { _ in handler() }), for: .touchUpInside)
     return button
@@ -89,11 +89,11 @@ final class PlainViewController: UIViewController, FloatingBottomSheetPresentabl
 
     stackView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      stackView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-      stackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-      stackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-      stackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-      stackView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor),
+      stackView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 16),
+      stackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 16),
+      stackView.trailingAnchor .constraint(equalTo: scrollView.trailingAnchor, constant: -16),
+      stackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -24),
+      stackView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor, constant: -32),
     ])
   }
 }
