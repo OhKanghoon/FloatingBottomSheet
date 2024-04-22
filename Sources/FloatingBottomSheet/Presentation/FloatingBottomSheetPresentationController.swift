@@ -77,7 +77,7 @@ public final class FloatingBottomSheetPresentationController: UIPresentationCont
 
   private var topYPosition: CGFloat = 0.0
 
-  private var bottomMargin: CGFloat = 0.0
+  private var bottomInset: CGFloat = 0.0
 
   private var isPresentedViewAnimating = false
 
@@ -218,7 +218,7 @@ extension FloatingBottomSheetPresentationController {
 
     let adjustedSize = CGSize(
       width: frame.size.width - (Metric.PresentedView.horizontalMargin * 2),
-      height: frame.size.height - bottomMargin - topYPosition
+      height: frame.size.height - bottomInset - topYPosition
     )
 
     bottomSheetContainerView.frame.size = adjustedSize
@@ -259,7 +259,7 @@ extension FloatingBottomSheetPresentationController {
     else { return }
 
     topYPosition = viewControllable.topYPosition
-    bottomMargin = viewControllable.bottomMargin
+    bottomInset = viewControllable.bottomSheetInsets.bottom
   }
 
   private func configureScrollViewInsets() {
