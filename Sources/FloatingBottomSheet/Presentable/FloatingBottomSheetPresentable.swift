@@ -34,7 +34,7 @@ public protocol FloatingBottomSheetPresentable: AnyObject {
   /// - top: view.safeAreaInsets.top + 42.0
   /// - leading: 20.0
   /// - trailing: 20.0
-  /// - bottom: view.safeAreaInsets.bottom + 12.0
+  /// - bottom: view.safeAreaInsets.bottom + 8.0
   var bottomSheetInsets: NSDirectionalEdgeInsets { get }
 
   /// The `bottomSheetHeight` property represents the height of the presented view for a bottom sheet.

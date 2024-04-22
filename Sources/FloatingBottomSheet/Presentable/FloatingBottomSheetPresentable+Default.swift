@@ -13,7 +13,7 @@ extension FloatingBottomSheetPresentable where Self: UIViewController {
     .init(
       top: safeAreaInsets.top + 42.0,
       leading: 20.0,
-      bottom: safeAreaInsets.bottom + 12.0,
+      bottom: safeAreaInsets.bottom + 8.0,
       trailing: 20.0
     )
   }
