@@ -14,7 +14,6 @@ public final class FloatingBottomSheetPresentationController: UIPresentationCont
   private enum Metric {
 
     enum PresentedView {
-      static let horizontalMargin: CGFloat = 16
       static let cornerRadius: CGFloat = 20
     }
   }
@@ -77,7 +76,7 @@ public final class FloatingBottomSheetPresentationController: UIPresentationCont
 
   private var topYPosition: CGFloat = 0.0
 
-  private var bottomInset: CGFloat = 0.0
+  private var bottomSheetInsets: NSDirectionalEdgeInsets = .zero
 
   private var isPresentedViewAnimating = false
 
@@ -217,13 +216,13 @@ extension FloatingBottomSheetPresentationController {
     guard let frame = containerView?.frame else { return }
 
     let adjustedSize = CGSize(
-      width: frame.size.width - (Metric.PresentedView.horizontalMargin * 2),
-      height: frame.size.height - bottomInset - topYPosition
+      width: frame.size.width - bottomSheetInsets.leading - bottomSheetInsets.trailing,
+      height: frame.size.height - bottomSheetInsets.bottom - topYPosition
     )
 
     bottomSheetContainerView.frame.size = adjustedSize
     bottomSheetContainerView.frame.origin.y = topYPosition
-    bottomSheetContainerView.frame.origin.x = Metric.PresentedView.horizontalMargin
+    bottomSheetContainerView.frame.origin.x = bottomSheetInsets.leading
   }
 
   private func adjustContainerBackgroundColor() {
@@ -259,7 +258,7 @@ extension FloatingBottomSheetPresentationController {
     else { return }
 
     topYPosition = viewControllable.topYPosition
-    bottomInset = viewControllable.bottomSheetInsets.bottom
+    bottomSheetInsets = viewControllable.bottomSheetInsets
   }
 
   private func configureScrollViewInsets() {

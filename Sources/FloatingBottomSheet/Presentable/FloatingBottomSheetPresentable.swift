@@ -32,8 +32,8 @@ public protocol FloatingBottomSheetPresentable: AnyObject {
   ///
   /// The default value for `bottomSheetInsets` is
   /// - top: view.safeAreaInsets.top + 42.0
-  /// - leading: 20.0
-  /// - trailing: 20.0
+  /// - leading: 16.0
+  /// - trailing: 16.0
   /// - bottom: view.safeAreaInsets.bottom + 8.0
   var bottomSheetInsets: NSDirectionalEdgeInsets { get }
 
