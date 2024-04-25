@@ -25,7 +25,7 @@ extension FloatingBottomSheetPresentable where Self: UIViewController {
     guard let containerView = bottomSheetPresentationController?.containerView
     else { return view.bounds.height }
 
-    return containerView.bounds.size.height - bottomSheetInsets.bottom - bottomSheetInsets.bottom
+    return containerView.bounds.size.height - bottomSheetInsets.bottom - bottomSheetInsets.top
   }
 
   private func topMargin(from height: CGFloat) -> CGFloat {
