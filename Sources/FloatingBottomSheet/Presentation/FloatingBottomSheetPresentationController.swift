@@ -74,9 +74,19 @@ public final class FloatingBottomSheetPresentationController: UIPresentationCont
 
   private var scrollObserver: NSKeyValueObservation?
 
-  private var topYPosition: CGFloat = 0.0
+  private var topYPosition: CGFloat {
+    guard let viewControllable = presentedViewController as? FloatingBottomSheet
+    else { return 0.0 }
 
-  private var bottomSheetInsets: NSDirectionalEdgeInsets = .zero
+    return viewControllable.topYPosition
+  }
+
+  private var bottomSheetInsets: NSDirectionalEdgeInsets {
+    guard let viewControllable = presentedViewController as? FloatingBottomSheet
+    else { return NSDirectionalEdgeInsets.zero }
+
+    return viewControllable.bottomSheetInsets
+  }
 
   private var isPresentedViewAnimating = false
 
@@ -92,15 +102,12 @@ public final class FloatingBottomSheetPresentationController: UIPresentationCont
 
   // MARK: View Life Cycle
 
-  public override func containerViewWillLayoutSubviews() {
-    super.containerViewWillLayoutSubviews()
-    configureViewLayout()
-  }
+  public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+    super.traitCollectionDidChange(previousTraitCollection)
 
-  public override func containerViewDidLayoutSubviews() {
-    super.containerViewDidLayoutSubviews()
-    adjustPresentedViewFrame()
-    addRoundedCorners(to: presentedView)
+    if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
+      performLayout(animated: false)
+    }
   }
 
 
@@ -122,7 +129,6 @@ public final class FloatingBottomSheetPresentationController: UIPresentationCont
     adjustContainerBackgroundColor()
     addRoundedCorners(to: presentedView)
     performLayout(animated: false)
-    configureScrollViewInsets()
 
     guard let coordinator = presentedViewController.transitionCoordinator else {
       dimmingView.alpha = 1.0
@@ -184,7 +190,6 @@ extension FloatingBottomSheetPresentationController {
       FloatingBottomSheetAnimator.animate({ [weak self] in
         guard let self else { return }
         isPresentedViewAnimating = true
-        configureViewLayout()
         adjustPresentedViewFrame()
         observe(scrollView: presentable?.bottomSheetScrollable)
         configureScrollViewInsets()
@@ -192,7 +197,6 @@ extension FloatingBottomSheetPresentationController {
         self?.isPresentedViewAnimating = !isCompleted
       }
     } else {
-      configureViewLayout()
       adjustPresentedViewFrame()
       observe(scrollView: presentable?.bottomSheetScrollable)
       configureScrollViewInsets()
@@ -220,13 +224,15 @@ extension FloatingBottomSheetPresentationController {
       height: frame.size.height - bottomSheetInsets.bottom - topYPosition
     )
 
-    bottomSheetContainerView.frame.size = adjustedSize
-    bottomSheetContainerView.frame.origin.y = topYPosition
-    bottomSheetContainerView.frame.origin.x = bottomSheetInsets.leading
+    presentedView.frame.size = adjustedSize
+    presentedView.frame.origin.y = topYPosition
+    presentedView.frame.origin.x = bottomSheetInsets.leading
+
+    presentedView.setNeedsLayout()
   }
 
   private func adjustContainerBackgroundColor() {
-    bottomSheetContainerView.backgroundColor = presentedViewController.view.backgroundColor
+    presentedView.backgroundColor = presentedViewController.view.backgroundColor
       ?? presentable?.bottomSheetScrollable?.backgroundColor
   }
 
@@ -251,14 +257,6 @@ extension FloatingBottomSheetPresentationController {
       handleView.widthAnchor.constraint(equalToConstant: BottomSheetHandleMetric.size.width),
       handleView.heightAnchor.constraint(equalToConstant: BottomSheetHandleMetric.size.height),
     ])
-  }
-
-  private func configureViewLayout() {
-    guard let viewControllable = presentedViewController as? FloatingBottomSheet
-    else { return }
-
-    topYPosition = viewControllable.topYPosition
-    bottomSheetInsets = viewControllable.bottomSheetInsets
   }
 
   private func configureScrollViewInsets() {
