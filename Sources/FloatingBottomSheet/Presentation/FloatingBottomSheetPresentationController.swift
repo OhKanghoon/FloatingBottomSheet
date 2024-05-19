@@ -49,7 +49,8 @@ public final class FloatingBottomSheetPresentationController: UIPresentationCont
   }()
 
   public override var presentedView: UIView {
-    bottomSheetContainerView
+    bottomSheetContainerView.bringSubviewToFront(handleView)
+    return bottomSheetContainerView
   }
 
   public override var frameOfPresentedViewInContainerView: CGRect {
