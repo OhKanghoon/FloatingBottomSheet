@@ -31,7 +31,6 @@ public final class FloatingBottomSheetPresentationController: UIPresentationCont
 
   private lazy var dimmingView: UIView = {
     let dimmingView = UIView()
-    dimmingView.backgroundColor = presentable?.bottomSheetDimColor
     dimmingView.alpha = 0
     dimmingView.addGestureRecognizer(tapGesture)
     return dimmingView
@@ -50,9 +49,24 @@ public final class FloatingBottomSheetPresentationController: UIPresentationCont
   }()
 
   public override var presentedView: UIView {
-    bottomSheetContainerView
+    bottomSheetContainerView.bringSubviewToFront(handleView)
+    return bottomSheetContainerView
   }
 
+  public override var frameOfPresentedViewInContainerView: CGRect {
+    guard let containerViewFrame = containerView?.frame else { return .zero }
+    let adjustedSize = CGSize(
+      width: containerViewFrame.size.width - bottomSheetInsets.leading - bottomSheetInsets.trailing,
+      height: containerViewFrame.size.height - bottomSheetInsets.bottom - topYPosition
+    )
+
+    return CGRect(
+      x: bottomSheetInsets.leading,
+      y: topYPosition,
+      width: adjustedSize.width,
+      height: adjustedSize.height
+    )
+  }
 
   // MARK: Gesture
 
@@ -95,12 +109,15 @@ public final class FloatingBottomSheetPresentationController: UIPresentationCont
   public override func containerViewWillLayoutSubviews() {
     super.containerViewWillLayoutSubviews()
     configureViewLayout()
+    presentedView.frame = frameOfPresentedViewInContainerView
+    presentedViewController.view.frame.size = frameOfPresentedViewInContainerView.size
   }
 
   public override func containerViewDidLayoutSubviews() {
     super.containerViewDidLayoutSubviews()
-    adjustPresentedViewFrame()
-    addRoundedCorners(to: presentedView)
+    adjustHandleViewFrame()
+    adjustPresentedViewControllerTopInset()
+    addRoundedCorners(to: bottomSheetContainerView)
   }
 
 
@@ -109,20 +126,15 @@ public final class FloatingBottomSheetPresentationController: UIPresentationCont
   public override func presentationTransitionWillBegin() {
     guard let containerView else { return }
 
-    presentedView.addSubview(handleView)
-    presentedView.addGestureRecognizer(panGestureRecognizer)
+    bottomSheetContainerView.addSubview(handleView)
+    bottomSheetContainerView.addGestureRecognizer(panGestureRecognizer)
 
     containerView.addSubview(dimmingView)
-    containerView.addSubview(presentedView)
+    containerView.addSubview(bottomSheetContainerView)
 
     layoutDimmingView(in: containerView)
-    layoutHandleView()
-    layoutPresentedView()
-
-    adjustContainerBackgroundColor()
-    addRoundedCorners(to: presentedView)
     performLayout(animated: false)
-    configureScrollViewInsets()
+    adjustBackgroundColors()
 
     guard let coordinator = presentedViewController.transitionCoordinator else {
       dimmingView.alpha = 1.0
@@ -172,7 +184,7 @@ extension FloatingBottomSheetPresentationController {
 
   var isPresentedViewAnchored: Bool {
     if !isPresentedViewAnimating,
-       presentedView.frame.minY.rounded() <= topYPosition.rounded() {
+       bottomSheetContainerView.frame.minY.rounded() <= topYPosition.rounded() {
       return true
     }
 
@@ -185,47 +197,38 @@ extension FloatingBottomSheetPresentationController {
         guard let self else { return }
         isPresentedViewAnimating = true
         configureViewLayout()
-        adjustPresentedViewFrame()
         observe(scrollView: presentable?.bottomSheetScrollable)
         configureScrollViewInsets()
+        containerView?.setNeedsLayout()
+        containerView?.layoutIfNeeded()
       }) { [weak self] isCompleted in
         self?.isPresentedViewAnimating = !isCompleted
       }
     } else {
       configureViewLayout()
-      adjustPresentedViewFrame()
       observe(scrollView: presentable?.bottomSheetScrollable)
       configureScrollViewInsets()
+      containerView?.setNeedsLayout()
+      containerView?.layoutIfNeeded()
     }
   }
 
-  private func layoutPresentedView() {
-    presentedViewController.view.translatesAutoresizingMaskIntoConstraints = false
-    NSLayoutConstraint.activate([
-      presentedViewController.view.topAnchor.constraint(
-        equalTo: handleView.bottomAnchor,
-        constant: BottomSheetHandleMetric.verticalMargin
-      ),
-      presentedViewController.view.leadingAnchor.constraint(equalTo: presentedView.leadingAnchor),
-      presentedViewController.view.trailingAnchor.constraint(equalTo: presentedView.trailingAnchor),
-      presentedViewController.view.bottomAnchor.constraint(equalTo: presentedView.bottomAnchor),
-    ])
+  private func adjustHandleViewFrame() {
+    handleView.frame.origin.y = BottomSheetHandleMetric.verticalMargin
+    handleView.frame.size = BottomSheetHandleMetric.size
+    handleView.center.x = CGRectGetMidX(bottomSheetContainerView.bounds)
   }
 
-  private func adjustPresentedViewFrame() {
-    guard let frame = containerView?.frame else { return }
-
-    let adjustedSize = CGSize(
-      width: frame.size.width - bottomSheetInsets.leading - bottomSheetInsets.trailing,
-      height: frame.size.height - bottomSheetInsets.bottom - topYPosition
-    )
-
-    bottomSheetContainerView.frame.size = adjustedSize
-    bottomSheetContainerView.frame.origin.y = topYPosition
-    bottomSheetContainerView.frame.origin.x = bottomSheetInsets.leading
+  private func adjustPresentedViewControllerTopInset() {
+    presentedViewController.additionalSafeAreaInsets.top = handleView.frame.maxY + BottomSheetHandleMetric
+      .verticalMargin
   }
 
-  private func adjustContainerBackgroundColor() {
+  private func adjustBackgroundColors() {
+    dimmingView.backgroundColor = presentable?.bottomSheetDimColor
+
+    handleView.backgroundColor = presentable?.bottomSheetHandleColor
+
     bottomSheetContainerView.backgroundColor = presentedViewController.view.backgroundColor
       ?? presentable?.bottomSheetScrollable?.backgroundColor
   }
@@ -237,19 +240,6 @@ extension FloatingBottomSheetPresentationController {
       dimmingView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
       dimmingView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
       dimmingView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
-    ])
-  }
-
-  private func layoutHandleView() {
-    handleView.translatesAutoresizingMaskIntoConstraints = false
-    NSLayoutConstraint.activate([
-      handleView.topAnchor.constraint(
-        equalTo: presentedView.topAnchor,
-        constant: BottomSheetHandleMetric.verticalMargin
-      ),
-      handleView.centerXAnchor.constraint(equalTo: presentedView.centerXAnchor),
-      handleView.widthAnchor.constraint(equalToConstant: BottomSheetHandleMetric.size.width),
-      handleView.heightAnchor.constraint(equalToConstant: BottomSheetHandleMetric.size.height),
     ])
   }
 
@@ -301,10 +291,10 @@ extension FloatingBottomSheetPresentationController {
       respond(to: recognizer)
 
     default:
-      let velocity = recognizer.velocity(in: presentedView)
+      let velocity = recognizer.velocity(in: bottomSheetContainerView)
 
       if isVelocityWithinSensitivityRange(velocity.y) {
-        if presentedView.frame.minY < topYPosition || presentable?.allowsDragToDismiss == false {
+        if bottomSheetContainerView.frame.minY < topYPosition || presentable?.allowsDragToDismiss == false {
           snap(toYPosition: topYPosition)
         } else {
           presentedViewController.dismiss(animated: true)
@@ -312,7 +302,7 @@ extension FloatingBottomSheetPresentationController {
 
       } else {
         let position = nearest(
-          to: presentedView.frame.minY,
+          to: bottomSheetContainerView.frame.minY,
           inValues: [containerView.bounds.height, topYPosition]
         )
 
@@ -339,14 +329,14 @@ extension FloatingBottomSheetPresentationController {
   func respond(to panGestureRecognizer: UIPanGestureRecognizer) {
     presentable?.willRespond(to: panGestureRecognizer)
 
-    var yDisplacement = panGestureRecognizer.translation(in: presentedView).y
+    var yDisplacement = panGestureRecognizer.translation(in: bottomSheetContainerView).y
 
-    if presentedView.frame.origin.y < topYPosition {
+    if bottomSheetContainerView.frame.origin.y < topYPosition {
       yDisplacement /= 2.0
     }
-    adjust(toYPosition: presentedView.frame.origin.y + yDisplacement)
+    adjust(toYPosition: bottomSheetContainerView.frame.origin.y + yDisplacement)
 
-    panGestureRecognizer.setTranslation(.zero, in: presentedView)
+    panGestureRecognizer.setTranslation(.zero, in: bottomSheetContainerView)
   }
 
   func shouldFail(panGestureRecognizer: UIPanGestureRecognizer) -> Bool {
@@ -364,7 +354,7 @@ extension FloatingBottomSheetPresentationController {
       return false
     }
 
-    let location = panGestureRecognizer.location(in: presentedView)
+    let location = panGestureRecognizer.location(in: bottomSheetContainerView)
     return scrollView.frame.contains(location) || scrollView.isScrolling
   }
 
@@ -387,16 +377,16 @@ extension FloatingBottomSheetPresentationController {
   }
 
   func adjust(toYPosition yPosition: CGFloat) {
-    presentedView.frame.origin.y = max(yPosition, topYPosition)
+    bottomSheetContainerView.frame.origin.y = max(yPosition, topYPosition)
 
-    guard presentedView.frame.origin.y > topYPosition else {
+    guard bottomSheetContainerView.frame.origin.y > topYPosition else {
       dimmingView.alpha = 1.0
       return
     }
 
-    let yDisplacementFromShortForm = presentedView.frame.origin.y - topYPosition
+    let yDisplacementFromShortForm = bottomSheetContainerView.frame.origin.y - topYPosition
 
-    dimmingView.alpha = 1.0 - (yDisplacementFromShortForm / presentedView.frame.height)
+    dimmingView.alpha = 1.0 - (yDisplacementFromShortForm / bottomSheetContainerView.frame.height)
   }
 
   func nearest(to number: CGFloat, inValues values: [CGFloat]) -> CGFloat {
@@ -487,10 +477,10 @@ extension FloatingBottomSheetPresentationController {
     let yOffset = scrollView.contentOffset.y
     let presentedSize = containerView?.frame.size ?? .zero
 
-    presentedView.bounds.size = CGSize(width: presentedSize.width, height: presentedSize.height + yOffset)
+    bottomSheetContainerView.bounds.size = CGSize(width: presentedSize.width, height: presentedSize.height + yOffset)
 
     if oldYValue > yOffset {
-      presentedView.frame.origin.y = topYPosition - yOffset
+      bottomSheetContainerView.frame.origin.y = topYPosition - yOffset
     } else {
       scrollViewYOffset = 0
       snap(toYPosition: topYPosition)
