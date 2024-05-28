@@ -44,6 +44,11 @@ public protocol FloatingBottomSheetPresentable: AnyObject {
   ///
   /// The default value for `bottomSheetHeight` is 100.
   var bottomSheetHeight: CGFloat { get }
+    
+  /// The bottom sheet corner radius
+  ///
+  /// The default value for `bottomSheetCornerRadius` is 20.
+  var bottomSheetCornerRadius: CGFloat { get }
 
   /// The bottom sheet dim color
   ///
