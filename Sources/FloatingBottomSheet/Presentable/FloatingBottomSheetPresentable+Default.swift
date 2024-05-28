@@ -24,7 +24,7 @@ extension FloatingBottomSheetPresentable where Self: UIViewController {
     return scrollView.contentSize.height
   }
     
-  public var bottomcSheetCornerRadius: CGFloat {
+  public var bottomSheetCornerRadius: CGFloat {
     20
   }
 
