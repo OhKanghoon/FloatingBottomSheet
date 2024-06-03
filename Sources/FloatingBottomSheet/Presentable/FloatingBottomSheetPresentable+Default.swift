@@ -23,6 +23,10 @@ extension FloatingBottomSheetPresentable where Self: UIViewController {
     scrollView.layoutIfNeeded()
     return scrollView.contentSize.height
   }
+    
+  public var bottomSheetCornerRadius: CGFloat {
+    20
+  }
 
   public var bottomSheetDimColor: UIColor {
     UIColor.black.withAlphaComponent(0.5)

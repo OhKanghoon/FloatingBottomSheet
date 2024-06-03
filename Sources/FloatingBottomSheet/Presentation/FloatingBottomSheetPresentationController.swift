@@ -261,7 +261,7 @@ extension FloatingBottomSheetPresentationController {
   }
 
   private func addRoundedCorners(to view: UIView) {
-    view.layer.cornerRadius = Metric.PresentedView.cornerRadius
+    view.layer.cornerRadius = presentable?.bottomSheetCornerRadius ?? Metric.PresentedView.cornerRadius
     view.layer.masksToBounds = true
   }
 }
