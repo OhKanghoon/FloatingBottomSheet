@@ -137,9 +137,14 @@ public final class FloatingBottomSheetPresentationController: UIPresentationCont
     adjustBackgroundColors()
 
     guard let coordinator = presentedViewController.transitionCoordinator else {
+      // Calls viewWillAppear and viewWillDisappear
+      presentingViewController.beginAppearanceTransition(false, animated: false)
       dimmingView.alpha = 1.0
       return
     }
+
+    // Calls viewWillAppear and viewWillDisappear
+    presentingViewController.beginAppearanceTransition(false, animated: coordinator.isAnimated)
 
     coordinator.animate(alongsideTransition: { [weak self] _ in
       self?.dimmingView.alpha = 1.0
@@ -148,9 +153,12 @@ public final class FloatingBottomSheetPresentationController: UIPresentationCont
   }
 
   public override func presentationTransitionDidEnd(_ completed: Bool) {
-    guard !completed else { return }
+    // Calls viewDidAppear and viewDidDisappear
+    presentingViewController.endAppearanceTransition()
 
-    dimmingView.removeFromSuperview()
+    if !completed {
+      dimmingView.removeFromSuperview()
+    }
   }
 
 
@@ -160,9 +168,14 @@ public final class FloatingBottomSheetPresentationController: UIPresentationCont
     presentable?.bottomSheetWillDismiss()
 
     guard let coordinator = presentedViewController.transitionCoordinator else {
+      // Calls viewWillAppear and viewWillDisappear
+      presentingViewController.beginAppearanceTransition(true, animated: false)
       dimmingView.alpha = 0.0
       return
     }
+
+    // Calls viewWillAppear and viewWillDisappear
+    presentingViewController.beginAppearanceTransition(true, animated: coordinator.isAnimated)
 
     coordinator.animate { [weak self] _ in
       self?.dimmingView.alpha = 0.0
@@ -171,9 +184,12 @@ public final class FloatingBottomSheetPresentationController: UIPresentationCont
   }
 
   public override func dismissalTransitionDidEnd(_ completed: Bool) {
-    if completed { return }
+    // Calls viewDidAppear and viewDidDisappear
+    presentingViewController.endAppearanceTransition()
 
-    presentable?.bottomSheetDidDismiss()
+    if completed {
+      presentable?.bottomSheetDidDismiss()
+    }
   }
 }
 
