@@ -64,15 +64,12 @@ extension FloatingBottomSheetPresentationAnimator: UIViewControllerAnimatedTrans
 extension FloatingBottomSheetPresentationAnimator {
 
   private func presentTransition(transitionContext: UIViewControllerContextTransitioning) {
-    guard let toViewController = transitionContext.viewController(forKey: .to),
-          let fromViewController = transitionContext.viewController(forKey: .from)
-    else {
+    guard let toViewController = transitionContext.viewController(forKey: .to) else {
       return
     }
 
     let presentable = toViewController as? FloatingBottomSheet
 
-    fromViewController.beginAppearanceTransition(false, animated: true)
 
     let yOffset = presentable?.topYPosition ?? 0.0
 
@@ -87,20 +84,15 @@ extension FloatingBottomSheetPresentationAnimator {
     FloatingBottomSheetAnimator.animate({
       bottomSheetContainerView.frame.origin.y = yOffset
     }) { [weak self] isCompleted in
-      fromViewController.endAppearanceTransition()
       transitionContext.completeTransition(isCompleted)
       self?.feedbackGenerator = nil
     }
   }
 
   private func dismissTransition(transitionContext: UIViewControllerContextTransitioning) {
-    guard let toViewController = transitionContext.viewController(forKey: .to),
-          let fromViewController = transitionContext.viewController(forKey: .from)
-    else {
+    guard let fromViewController = transitionContext.viewController(forKey: .from) else {
       return
     }
-
-    toViewController.beginAppearanceTransition(true, animated: true)
 
     let bottomSheetContainerView: UIView = transitionContext.containerView.bottomSheetContainerView
       ?? fromViewController.view
@@ -109,7 +101,6 @@ extension FloatingBottomSheetPresentationAnimator {
       bottomSheetContainerView.frame.origin.y = transitionContext.containerView.frame.height
     }) { isCompleted in
       fromViewController.view.removeFromSuperview()
-      toViewController.endAppearanceTransition()
       transitionContext.completeTransition(isCompleted)
     }
   }
