@@ -225,7 +225,6 @@ extension FloatingBottomSheetPresentationController {
       observe(scrollView: presentable?.bottomSheetScrollable)
       configureScrollViewInsets()
       containerView?.setNeedsLayout()
-      containerView?.layoutIfNeeded()
     }
   }
 
@@ -236,8 +235,8 @@ extension FloatingBottomSheetPresentationController {
   }
 
   private func adjustPresentedViewControllerTopInset() {
-    presentedViewController.additionalSafeAreaInsets.top = handleView.frame.maxY + BottomSheetHandleMetric
-      .verticalMargin
+    let topInset = handleView.frame.maxY + BottomSheetHandleMetric.verticalMargin
+    presentedViewController.additionalSafeAreaInsets.top = topInset
   }
 
   private func adjustBackgroundColors() {
