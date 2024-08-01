@@ -13,15 +13,17 @@ extension FloatingBottomSheetPresentable where Self: UIViewController {
     presentationController as? FloatingBottomSheetPresentationController
   }
 
-  var containerViewHeight: CGFloat {
-    bottomSheetHeight + BottomSheetHandleMetric.verticalMargin * 2 + BottomSheetHandleMetric.size.height
-  }
-
   var topYPosition: CGFloat {
     max(topMargin(from: containerViewHeight), 0) + bottomSheetInsets.top
   }
 
-  var bottomYPosition: CGFloat {
+  private var containerViewHeight: CGFloat {
+    bottomSheetHeight
+      + FloatingBottomSheetHandleMetric.verticalMargin * 2
+      + FloatingBottomSheetHandleMetric.size.height
+  }
+
+  private var bottomYPosition: CGFloat {
     guard let containerView = bottomSheetPresentationController?.containerView
     else { return view.bounds.height }
 
