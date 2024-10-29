@@ -7,7 +7,7 @@
 
 import UIKit
 
-enum BottomSheetHandleMetric {
+enum FloatingBottomSheetHandleMetric {
   static let size = CGSize(width: 40, height: 4)
   static let verticalMargin: CGFloat = 10
 }

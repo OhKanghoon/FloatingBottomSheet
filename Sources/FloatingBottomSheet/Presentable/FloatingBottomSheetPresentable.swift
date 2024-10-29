@@ -13,7 +13,7 @@ import UIKit
 /// ```
 /// extension ViewController: FloatingBottomSheetPresentable {
 ///
-///  var bottomSheetScrollable: UIScrollView {
+///  var bottomSheetScrollable: UIScrollView? {
 ///    scrollView
 ///  }
 ///
