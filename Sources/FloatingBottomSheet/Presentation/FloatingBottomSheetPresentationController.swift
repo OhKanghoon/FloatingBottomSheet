@@ -44,7 +44,7 @@ public final class FloatingBottomSheetPresentationController: UIPresentationCont
   private lazy var handleView: UIView = {
     let view = UIView()
     view.backgroundColor = presentable?.bottomSheetHandleColor
-    view.layer.cornerRadius = BottomSheetHandleMetric.size.height * 0.5
+    view.layer.cornerRadius = FloatingBottomSheetHandleMetric.size.height * 0.5
     return view
   }()
 
@@ -229,13 +229,13 @@ extension FloatingBottomSheetPresentationController {
   }
 
   private func adjustHandleViewFrame() {
-    handleView.frame.origin.y = BottomSheetHandleMetric.verticalMargin
-    handleView.frame.size = BottomSheetHandleMetric.size
+    handleView.frame.origin.y = FloatingBottomSheetHandleMetric.verticalMargin
+    handleView.frame.size = FloatingBottomSheetHandleMetric.size
     handleView.center.x = CGRectGetMidX(bottomSheetContainerView.bounds)
   }
 
   private func adjustPresentedViewControllerTopInset() {
-    let topInset = handleView.frame.maxY + BottomSheetHandleMetric.verticalMargin
+    let topInset = handleView.frame.maxY + FloatingBottomSheetHandleMetric.verticalMargin
     presentedViewController.additionalSafeAreaInsets.top = topInset
   }
 
