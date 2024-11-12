@@ -177,8 +177,11 @@ public final class FloatingBottomSheetPresentationController: UIPresentationCont
     // Calls viewWillAppear and viewWillDisappear
     presentingViewController.beginAppearanceTransition(true, animated: coordinator.isAnimated)
 
-    coordinator.animate { [weak self] _ in
+    coordinator.animate { [weak self] context in
       self?.dimmingView.alpha = 0.0
+      if !context.isAnimated {
+        self?.bottomSheetContainerView.alpha = 0.0
+      }
       self?.presentingViewController.setNeedsStatusBarAppearanceUpdate()
     }
   }
