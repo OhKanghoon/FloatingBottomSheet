@@ -212,6 +212,9 @@ extension FloatingBottomSheetPresentationController {
 
   func performLayout(animated: Bool) {
     if animated {
+      presentedViewController.view.setNeedsLayout()
+      presentedViewController.view.layoutIfNeeded()
+      
       FloatingBottomSheetAnimator.animate({ [weak self] in
         guard let self else { return }
         isPresentedViewAnimating = true
