@@ -83,7 +83,7 @@ public protocol FloatingBottomSheetPresentable: AnyObject {
   /// The default value is `true`.
   ///
   /// - Parameters:
-  ///   - panModalGestureRecognizer: The gesture recognizer used for bottom sheet interaction.
+  ///   - panGestureRecognizer: The gesture recognizer used for bottom sheet interaction.
   /// - Returns: A Boolean value indicating whether the bottom sheet should respond to the bottom sheet gesture recognizer.
   func shouldRespond(to panGestureRecognizer: UIPanGestureRecognizer) -> Bool
 
@@ -92,7 +92,7 @@ public protocol FloatingBottomSheetPresentable: AnyObject {
 
   /// The default implementation is an empty method.
 
-  /// - Parameter panModalGestureRecognizer: The gesture recognizer used for bottom sheet interaction.
+  /// - Parameter panGestureRecognizer: The gesture recognizer used for bottom sheet interaction.
   func willRespond(to panGestureRecognizer: UIPanGestureRecognizer)
 
   /// Asks the delegate whether the bottom sheet gesture recognizer should be given priority for the bottom sheet.
@@ -103,7 +103,7 @@ public protocol FloatingBottomSheetPresentable: AnyObject {
   ///
   /// The default return value is `false`.
   ///
-  /// - Parameter panModalGestureRecognizer: The gesture recognizer used for bottom sheet interaction.
+  /// - Parameter panGestureRecognizer: The gesture recognizer used for bottom sheet interaction.
   /// - Returns: A Boolean value indicating whether the bottom sheet gesture recognizer should be prioritized.
   func shouldPrioritize(panGestureRecognizer: UIPanGestureRecognizer) -> Bool
 
