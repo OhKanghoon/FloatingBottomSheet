@@ -80,7 +80,7 @@ extension FlexViewController: FloatingBottomSheetPresentable {
     nil
   }
 
-  var bottomSheetSize: any FloatingBottomSheetSize {
+  var bottomSheetHeight: any FloatingBottomSheetSizing {
     .viewSizeThatFits
   }
 }

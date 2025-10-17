@@ -21,10 +21,10 @@ final class PlainViewController: UIViewController, FloatingBottomSheetPresentabl
     return stackView
   }()
 
-  var bottomSheetHeight: CGFloat = 200
+  var bottomSheetHeightValue: CGFloat = 200
 
-  var bottomSheetSize: any FloatingBottomSheetSize {
-    .fixed(bottomSheetHeight)
+  var bottomSheetHeight: any FloatingBottomSheetSizing {
+    .fixed(bottomSheetHeightValue)
   }
 
   var bottomSheetScrollable: UIScrollView? {
@@ -44,11 +44,11 @@ final class PlainViewController: UIViewController, FloatingBottomSheetPresentabl
     scrollView.addSubview(stackView)
 
     let increaseButton = makeButton(title: "+ Increase Height", color: .systemBlue) { [weak self] in
-      self?.bottomSheetHeight += 100
+      self?.bottomSheetHeightValue += 100
       self?.bottomSheetPerformLayout(animated: true)
     }
     let decreaseButton = makeButton(title: "- Decrease Height", color: .systemRed) { [weak self] in
-      self?.bottomSheetHeight -= 100
+      self?.bottomSheetHeightValue -= 100
       self?.bottomSheetPerformLayout(animated: true)
     }
     stackView.addArrangedSubview(increaseButton)

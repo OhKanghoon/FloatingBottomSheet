@@ -1,5 +1,5 @@
 //
-//  FloatingBottomSheetSize.swift
+//  FloatingBottomSheetSizing.swift
 //  FloatingBottomSheet
 //
 //  Created by Ray on 10/17/25.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-/// A protocol that defines the size of a floating bottom sheet.
+/// A protocol that defines the sizing behavior of a floating bottom sheet.
 ///
 /// Conform to this protocol to create custom sizing behaviors for your bottom sheets.
 /// The protocol provides a context-aware approach where you can calculate the height
@@ -15,17 +15,17 @@ import UIKit
 ///
 /// Example:
 /// ```swift
-/// struct CustomSize: FloatingBottomSheetSize {
+/// struct CustomSizing: FloatingBottomSheetSizing {
 ///   func height(in context: Context) -> CGFloat {
 ///     // Your custom height calculation
 ///     return heightWithHandle(200)
 ///   }
 /// }
 /// ```
-public protocol FloatingBottomSheetSize {
+public protocol FloatingBottomSheetSizing {
 
   /// The context for calculating the height of the floating bottom sheet.
-  typealias Context = FloatingBottomSheetSizeContext
+  typealias Context = FloatingBottomSheetSizingContext
 
   /// Returns the height of the floating bottom sheet in the given context.
   ///
@@ -38,7 +38,7 @@ public protocol FloatingBottomSheetSize {
   func height(in context: Self.Context) -> CGFloat
 }
 
-extension FloatingBottomSheetSize {
+extension FloatingBottomSheetSizing {
 
   /// Calculates the total height including the handle area.
   /// - Parameter contentHeight: The height of the content area
@@ -55,7 +55,7 @@ extension FloatingBottomSheetSize {
 /// This structure provides access to the necessary information for calculating
 /// the bottom sheet height, including the bottom sheet view controller and the
 /// container view dimensions.
-public struct FloatingBottomSheetSizeContext {
+public struct FloatingBottomSheetSizingContext {
 
   /// The presented floating bottom sheet view controller.
   ///

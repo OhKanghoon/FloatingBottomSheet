@@ -52,7 +52,7 @@ $ pod install
 
 To use the FloatingBottomSheet, your ViewController must conform to the `FloatingBottomSheetPresentable` protocol.
 
-Start by implementing the `bottomSheetScrollable` and `bottomSheetSize` properties.
+Start by implementing the `bottomSheetScrollable` and `bottomSheetHeight` properties.
 
 ```swift
 final class ViewController: UIViewController, FloatingBottomSheetPresentable {
@@ -61,8 +61,8 @@ final class ViewController: UIViewController, FloatingBottomSheetPresentable {
     // Return a scrollable view
   }
 
-  var bottomSheetSize: any FloatingBottomSheetSize {
-    // Set the size of the bottom sheet
+  var bottomSheetHeight: any FloatingBottomSheetSizing {
+    // Set the height of the bottom sheet
     .fixed(400)
   }
 }
@@ -72,15 +72,15 @@ You can choose from different sizing options:
 
 - **Fixed height**: Use `.fixed(_)` for a constant height
   ```swift
-  var bottomSheetSize: any FloatingBottomSheetSize {
+  var bottomSheetHeight: any FloatingBottomSheetSizing {
     .fixed(400)
   }
   ```
 
-- **Dynamic height**: Use `.viewSizeThatFits()` to calculate height based on content
+- **Dynamic height**: Use `.viewSizeThatFits` to calculate height based on content
   ```swift
-  var bottomSheetSize: any FloatingBottomSheetSize {
-    .viewSizeThatFits()
+  var bottomSheetHeight: any FloatingBottomSheetSizing {
+    .viewSizeThatFits
   }
   ```
 
@@ -94,19 +94,19 @@ let viewController = ViewController()
 presentFloatingBottomSheet(viewController)
 ```
 
-### Updates bottom sheet size at runtime
+### Updates bottom sheet height at runtime
 
-To update the bottom sheet's size dynamically during runtime, update your `bottomSheetSize` property and call `bottomSheetPerformLayout`:
+To update the bottom sheet's height dynamically during runtime, update your `bottomSheetHeight` property and call `bottomSheetPerformLayout`:
 
 ```swift
-// Update your size property
-bottomSheetSize = .fixed(500)
+// Update your height property
+bottomSheetHeight = .fixed(500)
 
 // Apply the layout change
 bottomSheetPerformLayout(animated: true)
 ```
 
-You can change the value of `bottomSheetSize` to your desired size configuration
+You can change the value of `bottomSheetHeight` to your desired sizing configuration
 and then call the `bottomSheetPerformLayout` function to update the bottom sheet's layout with optional animation.
 
 If you don't want animation, set `animated` to false. 

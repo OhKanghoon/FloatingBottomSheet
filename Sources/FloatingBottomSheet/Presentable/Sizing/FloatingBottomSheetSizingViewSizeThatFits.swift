@@ -1,5 +1,5 @@
 //
-//  FloatingBottomSheetSizeViewSizeThatFits.swift
+//  FloatingBottomSheetSizingViewSizeThatFits.swift
 //  FloatingBottomSheet
 //
 //  Created by Ray on 10/17/25.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-/// A size implementation that calculates the height based on the view's `sizeThatFits(_:)` method.
+/// A sizing implementation that calculates the height based on the view's `sizeThatFits(_:)` method.
 ///
 /// This is useful when you want the bottom sheet height to automatically adjust based on
 /// the intrinsic content size of your view. The view must properly implement `sizeThatFits(_:)`
@@ -15,11 +15,11 @@ import UIKit
 ///
 /// Example:
 /// ```swift
-/// var bottomSheetSize: any FloatingBottomSheetSize {
+/// var bottomSheetHeight: any FloatingBottomSheetSizing {
 ///   .viewSizeThatFits
 /// }
 /// ```
-public struct FloatingBottomSheetSizeViewSizeThatFits: FloatingBottomSheetSize {
+public struct FloatingBottomSheetSizingViewSizeThatFits: FloatingBottomSheetSizing {
 
   /// Calculates the height by calling `sizeThatFits(_:)` on the bottom sheet's view.
   ///
@@ -44,14 +44,14 @@ public struct FloatingBottomSheetSizeViewSizeThatFits: FloatingBottomSheetSize {
   }
 }
 
-extension FloatingBottomSheetSize where Self == FloatingBottomSheetSizeViewSizeThatFits {
+extension FloatingBottomSheetSizing where Self == FloatingBottomSheetSizingViewSizeThatFits {
 
-  /// Creates a size that automatically fits the view's content.
+  /// Creates a sizing that automatically fits the view's content.
   ///
   /// The bottom sheet height is calculated by calling `sizeThatFits(_:)` on the
   /// presented view controller's view. This is ideal for content with intrinsic sizing,
   /// such as views using Auto Layout or FlexLayout.
   ///
-  /// - Returns: A `FloatingBottomSheetSizeViewSizeThatFits` instance.
+  /// - Returns: A `FloatingBottomSheetSizingViewSizeThatFits` instance.
   public static var viewSizeThatFits: Self { .init() }
 }

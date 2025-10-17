@@ -38,7 +38,7 @@ struct FloatingBottomSheetLayout {
     let insets = floatingBottomSheet.bottomSheetInsets
 
     // Calculate total height including handle area
-    let totalHeight = floatingBottomSheet.bottomSheetSize.height(
+    let totalHeight = floatingBottomSheet.bottomSheetHeight.height(
       in: .init(
         floatingBottomSheet: floatingBottomSheet,
         containerView: containerView
