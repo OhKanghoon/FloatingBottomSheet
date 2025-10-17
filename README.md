@@ -52,20 +52,37 @@ $ pod install
 
 To use the FloatingBottomSheet, your ViewController must conform to the `FloatingBottomSheetPresentable` protocol.
 
-Start by implementing the `bottomSheetScrollable` and `bottomSheetHeight` properties. 
+Start by implementing the `bottomSheetScrollable` and `bottomSheetSize` properties.
 
 ```swift
 final class ViewController: UIViewController, FloatingBottomSheetPresentable {
-  
-  var bottomSheetScrollable: UIScrollView? { 
+
+  var bottomSheetScrollable: UIScrollView? {
     // Return a scrollable view
   }
-    
-  var bottomSheetHeight: CGFloat { 
-    // Set the height of the bottom sheet
+
+  var bottomSheetSize: any FloatingBottomSheetSize {
+    // Set the size of the bottom sheet
+    .fixed(400)
   }
 }
 ```
+
+You can choose from different sizing options:
+
+- **Fixed height**: Use `.fixed(_)` for a constant height
+  ```swift
+  var bottomSheetSize: any FloatingBottomSheetSize {
+    .fixed(400)
+  }
+  ```
+
+- **Dynamic height**: Use `.viewSizeThatFits()` to calculate height based on content
+  ```swift
+  var bottomSheetSize: any FloatingBottomSheetSize {
+    .viewSizeThatFits()
+  }
+  ```
 
 ### Present bottom sheet
 
@@ -77,17 +94,20 @@ let viewController = ViewController()
 presentFloatingBottomSheet(viewController)
 ```
 
-### Updates bottom sheet height at runtime
+### Updates bottom sheet size at runtime
 
-To update the bottom sheet's height dynamically during runtime, use the following code:
+To update the bottom sheet's size dynamically during runtime, update your `bottomSheetSize` property and call `bottomSheetPerformLayout`:
 
 ```swift
-bottomSheetHeight = 400.0
+// Update your size property
+bottomSheetSize = .fixed(500)
+
+// Apply the layout change
 bottomSheetPerformLayout(animated: true)
 ```
 
-You can change the value of bottomSheetHeight to your desired height 
-and then call `bottomSheetPerformLayout` function to update the bottom sheet's height with optional animation. 
+You can change the value of `bottomSheetSize` to your desired size configuration
+and then call the `bottomSheetPerformLayout` function to update the bottom sheet's layout with optional animation.
 
 If you don't want animation, set `animated` to false. 
 
