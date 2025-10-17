@@ -9,6 +9,10 @@ import UIKit
 
 extension FloatingBottomSheetPresentable where Self: UIViewController {
 
+  var bottomSheetPresentationController: FloatingBottomSheetPresentationController? {
+    presentationController as? FloatingBottomSheetPresentationController
+  }
+
   /// Triggers layout changes for the bottom sheet presentation controller.
   ///
   /// This method can be called to initiate layout changes for the bottom sheet presentation controller.

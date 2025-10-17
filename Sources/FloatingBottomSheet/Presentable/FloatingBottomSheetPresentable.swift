@@ -17,8 +17,8 @@ import UIKit
 ///    scrollView
 ///  }
 ///
-///  var bottomSheetHeight: CGFloat {
-///    scrollView.contentSize.height
+///  var bottomSheetSize: any FloatingBottomSheetSize {
+///    .fixed(300)
 ///  }
 /// }
 /// ```
@@ -37,14 +37,21 @@ public protocol FloatingBottomSheetPresentable: AnyObject {
   /// - bottom: view.safeAreaInsets.bottom + 8.0
   var bottomSheetInsets: NSDirectionalEdgeInsets { get }
 
-  /// The `bottomSheetHeight` property represents the height of the presented view for a bottom sheet.
-  /// Height of the bottom sheet container view is `bottomSheetHeight` + 24 (handle view area)
+  /// The size configuration for the floating bottom sheet.
   ///
-  /// This property is adjusted to the maximum possible height within the screen limits.
+  /// This property determines how the bottom sheet's height is calculated.
+  /// You can use predefined size types like `.fixed(_)` or `.viewSizeThatFits()`.
   ///
-  /// The default value for `bottomSheetHeight` is 100.
-  var bottomSheetHeight: CGFloat { get }
-    
+  /// Example:
+  /// ```swift
+  /// var bottomSheetSize: any FloatingBottomSheetSize {
+  ///   .fixed(300)
+  /// }
+  /// ```
+  ///
+  /// See ``FloatingBottomSheetSize`` for available size options.
+  var bottomSheetSize: any FloatingBottomSheetSize { get }
+
   /// The bottom sheet corner radius
   ///
   /// The default value for `bottomSheetCornerRadius` is 20.

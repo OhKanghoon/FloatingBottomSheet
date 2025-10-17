@@ -18,12 +18,6 @@ extension FloatingBottomSheetPresentable where Self: UIViewController {
     )
   }
 
-  public var bottomSheetHeight: CGFloat {
-    guard let scrollView = bottomSheetScrollable else { return 100 }
-    scrollView.layoutIfNeeded()
-    return scrollView.contentSize.height
-  }
-    
   public var bottomSheetCornerRadius: CGFloat {
     20
   }
