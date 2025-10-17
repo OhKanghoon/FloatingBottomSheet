@@ -54,18 +54,7 @@ public final class FloatingBottomSheetPresentationController: UIPresentationCont
   }
 
   public override var frameOfPresentedViewInContainerView: CGRect {
-    guard let containerViewFrame = containerView?.frame else { return .zero }
-    let adjustedSize = CGSize(
-      width: containerViewFrame.size.width - bottomSheetInsets.leading - bottomSheetInsets.trailing,
-      height: containerViewFrame.size.height - bottomSheetInsets.bottom - topYPosition
-    )
-
-    return CGRect(
-      x: bottomSheetInsets.leading,
-      y: topYPosition,
-      width: adjustedSize.width,
-      height: adjustedSize.height
-    )
+    layout.frame
   }
 
   // MARK: Gesture
@@ -88,9 +77,27 @@ public final class FloatingBottomSheetPresentationController: UIPresentationCont
 
   private var scrollObserver: NSKeyValueObservation?
 
-  private var topYPosition: CGFloat = 0.0
+  private var cachedLayout: FloatingBottomSheetLayout?
 
-  private var bottomSheetInsets: NSDirectionalEdgeInsets = .zero
+  private var layout: FloatingBottomSheetLayout {
+    if let cached = cachedLayout {
+      return cached
+    }
+
+    guard
+      let containerView,
+      let floatingBottomSheet = presentedViewController as? FloatingBottomSheet
+    else {
+      return .zero
+    }
+
+    let layout = FloatingBottomSheetLayout.calculate(
+      floatingBottomSheet: floatingBottomSheet,
+      in: containerView
+    )
+    cachedLayout = layout
+    return layout
+  }
 
   private var isPresentedViewAnimating = false
 
@@ -108,7 +115,7 @@ public final class FloatingBottomSheetPresentationController: UIPresentationCont
 
   public override func containerViewWillLayoutSubviews() {
     super.containerViewWillLayoutSubviews()
-    configureViewLayout()
+    invalidateLayout()
     presentedView.frame = frameOfPresentedViewInContainerView
     presentedViewController.view.frame.size = frameOfPresentedViewInContainerView.size
   }
@@ -203,7 +210,7 @@ extension FloatingBottomSheetPresentationController {
 
   var isPresentedViewAnchored: Bool {
     if !isPresentedViewAnimating,
-       bottomSheetContainerView.frame.minY.rounded() <= topYPosition.rounded() {
+       bottomSheetContainerView.frame.minY.rounded() <= layout.topYPosition.rounded() {
       return true
     }
 
@@ -215,7 +222,7 @@ extension FloatingBottomSheetPresentationController {
       FloatingBottomSheetAnimator.animate({ [weak self] in
         guard let self else { return }
         isPresentedViewAnimating = true
-        configureViewLayout()
+        invalidateLayout()
         observe(scrollView: presentable?.bottomSheetScrollable)
         configureScrollViewInsets()
         containerView?.setNeedsLayout()
@@ -224,7 +231,7 @@ extension FloatingBottomSheetPresentationController {
         self?.isPresentedViewAnimating = !isCompleted
       }
     } else {
-      configureViewLayout()
+      invalidateLayout()
       observe(scrollView: presentable?.bottomSheetScrollable)
       configureScrollViewInsets()
       containerView?.setNeedsLayout()
@@ -261,12 +268,8 @@ extension FloatingBottomSheetPresentationController {
     ])
   }
 
-  private func configureViewLayout() {
-    guard let viewControllable = presentedViewController as? FloatingBottomSheet
-    else { return }
-
-    topYPosition = viewControllable.topYPosition
-    bottomSheetInsets = viewControllable.bottomSheetInsets
+  private func invalidateLayout() {
+    cachedLayout = nil
   }
 
   private func configureScrollViewInsets() {
@@ -310,10 +313,11 @@ extension FloatingBottomSheetPresentationController {
 
     default:
       let velocity = recognizer.velocity(in: bottomSheetContainerView)
+      let topY = layout.topYPosition
 
       if isVelocityWithinSensitivityRange(velocity.y) {
-        if bottomSheetContainerView.frame.minY < topYPosition || presentable?.allowsDragToDismiss == false {
-          snap(toYPosition: topYPosition)
+        if bottomSheetContainerView.frame.minY < topY || presentable?.allowsDragToDismiss == false {
+          snap(toYPosition: topY)
         } else {
           presentedViewController.dismiss(animated: true)
         }
@@ -321,11 +325,11 @@ extension FloatingBottomSheetPresentationController {
       } else {
         let position = nearest(
           to: bottomSheetContainerView.frame.minY,
-          inValues: [containerView.bounds.height, topYPosition]
+          inValues: [containerView.bounds.height, topY]
         )
 
-        if position == topYPosition || presentable?.allowsDragToDismiss == false {
-          snap(toYPosition: topYPosition)
+        if position == topY || presentable?.allowsDragToDismiss == false {
+          snap(toYPosition: topY)
         } else {
           presentedViewController.dismiss(animated: true)
         }
@@ -349,7 +353,7 @@ extension FloatingBottomSheetPresentationController {
 
     var yDisplacement = panGestureRecognizer.translation(in: bottomSheetContainerView).y
 
-    if bottomSheetContainerView.frame.origin.y < topYPosition {
+    if bottomSheetContainerView.frame.origin.y < layout.topYPosition {
       yDisplacement /= 2.0
     }
     adjust(toYPosition: bottomSheetContainerView.frame.origin.y + yDisplacement)
@@ -395,14 +399,15 @@ extension FloatingBottomSheetPresentationController {
   }
 
   func adjust(toYPosition yPosition: CGFloat) {
-    bottomSheetContainerView.frame.origin.y = max(yPosition, topYPosition)
+    let topY = layout.topYPosition
+    bottomSheetContainerView.frame.origin.y = max(yPosition, topY)
 
-    guard bottomSheetContainerView.frame.origin.y > topYPosition else {
+    guard bottomSheetContainerView.frame.origin.y > topY else {
       dimmingView.alpha = 1.0
       return
     }
 
-    let yDisplacementFromShortForm = bottomSheetContainerView.frame.origin.y - topYPosition
+    let yDisplacementFromShortForm = bottomSheetContainerView.frame.origin.y - topY
 
     dimmingView.alpha = 1.0 - (yDisplacementFromShortForm / bottomSheetContainerView.frame.height)
   }
@@ -494,14 +499,15 @@ extension FloatingBottomSheetPresentationController {
 
     let yOffset = scrollView.contentOffset.y
     let presentedSize = containerView?.frame.size ?? .zero
+    let topY = layout.topYPosition
 
     bottomSheetContainerView.bounds.size = CGSize(width: presentedSize.width, height: presentedSize.height + yOffset)
 
     if oldYValue > yOffset {
-      bottomSheetContainerView.frame.origin.y = topYPosition - yOffset
+      bottomSheetContainerView.frame.origin.y = topY - yOffset
     } else {
       scrollViewYOffset = 0
-      snap(toYPosition: topYPosition)
+      snap(toYPosition: topY)
     }
 
     scrollView.showsVerticalScrollIndicator = false
