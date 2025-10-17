@@ -18,6 +18,9 @@
 		711A09642AC971FF0013EB44 /* PlainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A09632AC971FF0013EB44 /* PlainViewController.swift */; };
 		711A09662AC972510013EB44 /* SampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A09652AC972510013EB44 /* SampleViewController.swift */; };
 		711A096C2AC9BAD50013EB44 /* SampleModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A096B2AC9BAD50013EB44 /* SampleModels.swift */; };
+		71CEB2AD2EA1DE0D000D7846 /* FlexViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CEB2AC2EA1DE0D000D7846 /* FlexViewController.swift */; };
+		71CEB2B02EA1DF2E000D7846 /* FlexLayout in Frameworks */ = {isa = PBXBuildFile; productRef = 71CEB2AF2EA1DF2E000D7846 /* FlexLayout */; };
+		71CEB2B32EA1E00C000D7846 /* PinLayout in Frameworks */ = {isa = PBXBuildFile; productRef = 71CEB2B22EA1E00C000D7846 /* PinLayout */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +55,7 @@
 		711A09632AC971FF0013EB44 /* PlainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlainViewController.swift; sourceTree = "<group>"; };
 		711A09652AC972510013EB44 /* SampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleViewController.swift; sourceTree = "<group>"; };
 		711A096B2AC9BAD50013EB44 /* SampleModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleModels.swift; sourceTree = "<group>"; };
+		71CEB2AC2EA1DE0D000D7846 /* FlexViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlexViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,7 +63,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				71CEB2B32EA1E00C000D7846 /* PinLayout in Frameworks */,
 				711A09612AC971DC0013EB44 /* FloatingBottomSheet in Frameworks */,
+				71CEB2B02EA1DF2E000D7846 /* FlexLayout in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -135,6 +141,7 @@
 			isa = PBXGroup;
 			children = (
 				711A09632AC971FF0013EB44 /* PlainViewController.swift */,
+				71CEB2AC2EA1DE0D000D7846 /* FlexViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -166,6 +173,8 @@
 			name = Sample;
 			packageProductDependencies = (
 				711A09602AC971DC0013EB44 /* FloatingBottomSheet */,
+				71CEB2AF2EA1DF2E000D7846 /* FlexLayout */,
+				71CEB2B22EA1E00C000D7846 /* PinLayout */,
 			);
 			productName = Sample;
 			productReference = 711A092C2AC971CD0013EB44 /* Sample.app */;
@@ -241,6 +250,8 @@
 			mainGroup = 711A09232AC971CD0013EB44;
 			packageReferences = (
 				711A095F2AC971DC0013EB44 /* XCLocalSwiftPackageReference ".." */,
+				71CEB2AE2EA1DF2E000D7846 /* XCRemoteSwiftPackageReference "FlexLayout" */,
+				71CEB2B12EA1E00C000D7846 /* XCRemoteSwiftPackageReference "PinLayout" */,
 			);
 			productRefGroup = 711A092D2AC971CD0013EB44 /* Products */;
 			projectDirPath = "";
@@ -287,6 +298,7 @@
 				711A09662AC972510013EB44 /* SampleViewController.swift in Sources */,
 				711A09642AC971FF0013EB44 /* PlainViewController.swift in Sources */,
 				711A09302AC971CD0013EB44 /* AppDelegate.swift in Sources */,
+				71CEB2AD2EA1DE0D000D7846 /* FlexViewController.swift in Sources */,
 				711A096C2AC9BAD50013EB44 /* SampleModels.swift in Sources */,
 				711A09322AC971CD0013EB44 /* SceneDelegate.swift in Sources */,
 			);
@@ -627,10 +639,39 @@
 		};
 /* End XCLocalSwiftPackageReference section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		71CEB2AE2EA1DF2E000D7846 /* XCRemoteSwiftPackageReference "FlexLayout" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/layoutBox/FlexLayout.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.2.2;
+			};
+		};
+		71CEB2B12EA1E00C000D7846 /* XCRemoteSwiftPackageReference "PinLayout" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/layoutBox/PinLayout";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.10.6;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
 		711A09602AC971DC0013EB44 /* FloatingBottomSheet */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = FloatingBottomSheet;
+		};
+		71CEB2AF2EA1DF2E000D7846 /* FlexLayout */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 71CEB2AE2EA1DF2E000D7846 /* XCRemoteSwiftPackageReference "FlexLayout" */;
+			productName = FlexLayout;
+		};
+		71CEB2B22EA1E00C000D7846 /* PinLayout */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 71CEB2B12EA1E00C000D7846 /* XCRemoteSwiftPackageReference "PinLayout" */;
+			productName = PinLayout;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
