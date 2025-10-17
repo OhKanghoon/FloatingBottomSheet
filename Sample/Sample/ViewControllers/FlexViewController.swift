@@ -57,16 +57,12 @@ final class FlexContentView: UIView {
   }
 
   override func sizeThatFits(_ size: CGSize) -> CGSize {
-    let result = rootFlexContainer.flex.sizeThatFits(
+    rootFlexContainer.flex.sizeThatFits(
       size: .init(
         width: size.width,
-        height: .nan,
-      ),
+        height: .nan
+      )
     )
-
-    print(result)
-
-    return result
   }
 }
 
@@ -84,12 +80,7 @@ extension FlexViewController: FloatingBottomSheetPresentable {
     nil
   }
 
-  var bottomSheetHeight: CGFloat {
-    contentView.sizeThatFits(
-      CGSize(
-        width: view.frame.width,
-        height: .greatestFiniteMagnitude,
-      ),
-    ).height
+  var bottomSheetSize: any FloatingBottomSheetSize {
+    .viewSizeThatFits
   }
 }

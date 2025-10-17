@@ -23,6 +23,10 @@ final class PlainViewController: UIViewController, FloatingBottomSheetPresentabl
 
   var bottomSheetHeight: CGFloat = 200
 
+  var bottomSheetSize: any FloatingBottomSheetSize {
+    .fixed(bottomSheetHeight)
+  }
+
   var bottomSheetScrollable: UIScrollView? {
     scrollView
   }
@@ -50,7 +54,7 @@ final class PlainViewController: UIViewController, FloatingBottomSheetPresentabl
     stackView.addArrangedSubview(increaseButton)
     stackView.addArrangedSubview(decreaseButton)
 
-    (0...3).forEach { _ in
+    (0...5).forEach { _ in
       stackView.addArrangedSubview(makeLabel())
     }
   }
