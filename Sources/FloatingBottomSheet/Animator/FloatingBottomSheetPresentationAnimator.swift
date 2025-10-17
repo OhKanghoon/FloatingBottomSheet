@@ -68,16 +68,24 @@ extension FloatingBottomSheetPresentationAnimator {
       return
     }
 
-    let presentable = toViewController as? FloatingBottomSheet
-
-
-    let yOffset = presentable?.topYPosition ?? 0.0
-
-    let bottomSheetContainerView: UIView = transitionContext.containerView.bottomSheetContainerView
+    let containerView = transitionContext.containerView
+    let bottomSheetContainerView: UIView = containerView.bottomSheetContainerView
       ?? toViewController.view
 
+    // Calculate layout using shared calculation logic
+    let yOffset: CGFloat
+    if let floatingBottomSheet = toViewController as? FloatingBottomSheet {
+      let layout = FloatingBottomSheetLayout.calculate(
+        floatingBottomSheet: floatingBottomSheet,
+        in: containerView
+      )
+      yOffset = layout.topYPosition
+    } else {
+      yOffset = 0.0
+    }
+
     bottomSheetContainerView.frame = transitionContext.finalFrame(for: toViewController)
-    bottomSheetContainerView.frame.origin.y = transitionContext.containerView.frame.height
+    bottomSheetContainerView.frame.origin.y = containerView.frame.height
 
     feedbackGenerator?.selectionChanged()
 
