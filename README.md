@@ -52,20 +52,37 @@ $ pod install
 
 To use the FloatingBottomSheet, your ViewController must conform to the `FloatingBottomSheetPresentable` protocol.
 
-Start by implementing the `bottomSheetScrollable` and `bottomSheetHeight` properties. 
+Start by implementing the `bottomSheetScrollable` and `bottomSheetHeight` properties.
 
 ```swift
 final class ViewController: UIViewController, FloatingBottomSheetPresentable {
-  
-  var bottomSheetScrollable: UIScrollView? { 
+
+  var bottomSheetScrollable: UIScrollView? {
     // Return a scrollable view
   }
-    
-  var bottomSheetHeight: CGFloat { 
+
+  var bottomSheetHeight: any FloatingBottomSheetSizing {
     // Set the height of the bottom sheet
+    .fixed(400)
   }
 }
 ```
+
+You can choose from different sizing options:
+
+- **Fixed height**: Use `.fixed(_)` for a constant height
+  ```swift
+  var bottomSheetHeight: any FloatingBottomSheetSizing {
+    .fixed(400)
+  }
+  ```
+
+- **Dynamic height**: Use `.viewSizeThatFits` to calculate height based on content
+  ```swift
+  var bottomSheetHeight: any FloatingBottomSheetSizing {
+    .viewSizeThatFits
+  }
+  ```
 
 ### Present bottom sheet
 
@@ -79,15 +96,18 @@ presentFloatingBottomSheet(viewController)
 
 ### Updates bottom sheet height at runtime
 
-To update the bottom sheet's height dynamically during runtime, use the following code:
+To update the bottom sheet's height dynamically during runtime, update your `bottomSheetHeight` property and call `bottomSheetPerformLayout`:
 
 ```swift
-bottomSheetHeight = 400.0
+// Update your height property
+bottomSheetHeight = .fixed(500)
+
+// Apply the layout change
 bottomSheetPerformLayout(animated: true)
 ```
 
-You can change the value of bottomSheetHeight to your desired height 
-and then call `bottomSheetPerformLayout` function to update the bottom sheet's height with optional animation. 
+You can change the value of `bottomSheetHeight` to your desired sizing configuration
+and then call the `bottomSheetPerformLayout` function to update the bottom sheet's layout with optional animation.
 
 If you don't want animation, set `animated` to false. 
 
